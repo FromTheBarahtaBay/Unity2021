@@ -34,7 +34,6 @@ public class Toucher
             return;
 
         _isEffectActive = !_touchBehaviour.IsExit();
-
         _touchBehaviour.Execute(GetHit());
         
     }

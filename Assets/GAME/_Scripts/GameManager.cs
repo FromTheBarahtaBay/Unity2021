@@ -4,9 +4,11 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Items Settings")]
     [SerializeField] private LayerMask _interactableLayers;
-    [SerializeField] private GameObject _explosionPrefab;
 
+    [Header("Explosion Settings")]
+    [SerializeField] private GameObject _explosionPrefab;
     [SerializeField] private float _explosionPower = 5;
     [SerializeField] private float _explosionRadius = 6;
 

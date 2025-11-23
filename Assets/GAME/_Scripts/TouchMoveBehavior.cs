@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class TouchMoveBehavior : ITouchBehaviour
 {
-    private readonly InputsListener _inputs;
+    private readonly InputsListener _inputsListener;
     private readonly Camera _camera;
-    private readonly MouseButtons _button;
+    private readonly MouseButtons _buttonKey;
 
     private IDraggable _item;
     private Plane _dragPlane;
-    private bool _dragging;
+    private bool _isDragging;
 
     public TouchMoveBehavior(InputsListener inputs, Camera camera, MouseButtons button)
     {
-        _inputs = inputs;
+        _inputsListener = inputs;
         _camera = camera;
-        _button = button;
+        _buttonKey = button;
     }
 
     public void Start(RaycastHit hit)
@@ -23,30 +23,30 @@ public class TouchMoveBehavior : ITouchBehaviour
             return;
 
         _item.StartDragging(hit.point);
-        _dragging = true;
+        _isDragging = true;
 
         _dragPlane = new Plane(-_camera.transform.forward, hit.point);
     }
 
     public void Execute(RaycastHit hit)
     {
-        if (_dragging && _item != null)
+        if (_isDragging && _item != null)
             Drag();
     }
 
     public bool IsExit()
     {
-        if (!_inputs.IsMouseButtonUp(_button))
+        if (_inputsListener.IsMouseButtonDown(_buttonKey) || _inputsListener.IsMouseButtonHold(_buttonKey))
             return false;
 
         _item = null;
-        _dragging = false;
+        _isDragging = false;
         return true;
     }
 
     private void Drag()
     {
-        Ray ray = _camera.ScreenPointToRay(_inputs.GetMousePosition());
+        Ray ray = _camera.ScreenPointToRay(_inputsListener.GetMousePosition());
 
         if (_dragPlane.Raycast(ray, out float enter))
             _item.Dragging(ray.GetPoint(enter));

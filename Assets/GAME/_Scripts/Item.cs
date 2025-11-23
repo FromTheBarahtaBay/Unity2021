@@ -20,6 +20,7 @@ public class Item : MonoBehaviour, IExplosible, IDraggable
 
     public void BlowUp(Vector3 direction, float blowPower)
     {
+        _rigidbody.velocity = Vector3.zero;
         _rigidbody.isKinematic = false;
         _rigidbody.AddForce(direction * blowPower, ForceMode.Impulse);
     }
